@@ -1,0 +1,36 @@
+from collections.abc import Callable
+
+from .telegram_event import TelegramEvent
+
+
+class TelegramEventRouter:
+    def __init__(self):
+        self.handlers: dict[str, Callable[[TelegramEvent], object]] = {}
+
+    def register(
+        self,
+        event_type: str,
+        handler: Callable[[TelegramEvent], object],
+    ) -> None:
+        event_type = event_type.strip().lower()
+
+        if not event_type:
+            raise ValueError("El tipo de evento no puede estar vacío.")
+
+        self.handlers[event_type] = handler
+
+    def dispatch(self, event: TelegramEvent):
+        if not event.is_valid():
+            raise ValueError("El evento de Telegram no es válido.")
+
+        handler = self.handlers.get(event.event_type.lower())
+
+        if handler is None:
+            raise KeyError(
+                f"No existe un controlador para el evento: {event.event_type}"
+            )
+
+        return handler(event)
+
+    def has_handler(self, event_type: str) -> bool:
+        return event_type.strip().lower() in self.handlers
