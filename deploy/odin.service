@@ -1,0 +1,33 @@
+[Unit]
+Description=ODIN Autonomous AI System
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+User=odin
+Group=odin
+
+WorkingDirectory=/opt/odin
+
+EnvironmentFile=-/etc/odin/odin.env
+Environment=PYTHONUNBUFFERED=1
+
+ExecStart=/usr/bin/python3 -m src.deployment.odin_production_launcher
+
+Restart=always
+RestartSec=10
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
+ReadWritePaths=/opt/odin
+
+TimeoutStartSec=60
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
