@@ -173,4 +173,6 @@ def test_complete_rejects_task_not_running():
 
     with pytest.raises(
         ValueError,
-        match="Task
+        match="Task must be running",
+    ):
+        manager.complete(task)
