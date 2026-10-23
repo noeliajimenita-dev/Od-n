@@ -199,4 +199,17 @@ def test_service_rejects_event_without_worker():
         service.record_event(task, "started")
 
 
-def test_service_reports_assignment_and_event_counts
+def test_service_reports_assignment_and_event_counts():
+    service, _, _ = create_service()
+
+    task = Task(
+        task_id="task-008",
+        description="Event count task",
+    )
+
+    service.assign(task)
+    service.record_event(task, "started")
+
+    counts = service.get_event_counts(task)
+
+    assert counts["started"] == 1
