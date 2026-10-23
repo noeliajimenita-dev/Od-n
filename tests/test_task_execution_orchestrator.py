@@ -180,4 +180,6 @@ def test_orchestrator_rejects_unassigned_task():
 
 
 def test_orchestrator_get_missing_result_returns_none():
-   
+    orchestrator = build_orchestrator()
+    result = orchestrator.get_result("non-existent-task")
+    assert result is None
