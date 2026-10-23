@@ -353,4 +353,18 @@ def test_proposal_rejection_changes_status():
     assert rejected.status == "rejected"
 
 
-def test_job_and_proposal_are_link
+def test_job_and_proposal_are_link():
+    account_service, job_service, proposal_service = build_system()
+    create_ready_account(account_service)
+    job = create_eligible_job(job_service)
+    proposal = proposal_service.create(
+        Proposal(
+            proposal_id="proposal_8",
+            job_id=job.job_id,
+            account_id="account_1",
+            message="Link test.",
+            price=100.0,
+            delivery_hours=10.0,
+        )
+    )
+    assert proposal.job_id == job.job_id
