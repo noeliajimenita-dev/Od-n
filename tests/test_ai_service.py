@@ -243,7 +243,7 @@ class TestResourceManager(unittest.TestCase):
             self.manager.is_limit_reached("test")
         )
 
-    def test_pause_and_resume(self) -> None:
+        def test_pause_and_resume(self) -> None:
         self.manager.pause("test")
 
         self.assertTrue(
@@ -253,4 +253,5 @@ class TestResourceManager(unittest.TestCase):
         self.manager.resume("test")
 
         self.assertFalse(
-            self.manager.is_paused("
+            self.manager.is_paused("test")
+        )
